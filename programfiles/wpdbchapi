@@ -1,0 +1,11 @@
+#!/bin/bash
+
+wpdbchapi(){
+	declare -a errors
+
+	if [ -z $1 ]; then
+		errors+=('You must provides the first argument as the path to the wp-config.php file')
+	fi
+
+	if [ -z ]
+}
