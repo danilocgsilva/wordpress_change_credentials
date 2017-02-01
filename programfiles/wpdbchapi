@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if ! [ which checknullargumentandadderror > /dev/null ]; then
+
+fi
+
 wpdbchapi(){
 	declare -a errors
 
