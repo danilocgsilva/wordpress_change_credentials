@@ -1,0 +1,10 @@
+Commands usage:
+--------------
+<wpdbnamech> <WordPress_installation_folder> <old_db_name> <new_db_name>
+<wpdbuserch> <WordPress_installation_folder> <old_db_user> <new_db_user>
+<wpdbpassch> <WordPress_installation_folder> <old_db_pass> <new_db_pass>
+<wpdbhostch> <WordPress_installation_folder> <old_db_host> <new_db_host> 
+
+All will share a common api, as they will use the same method to change everything. I've choosed to not create a single file to do all database credentials replacement because in some situations you will not want to replace everything at once. For example, the datalabse localhost sometimes may not change between installtions.
+
+
