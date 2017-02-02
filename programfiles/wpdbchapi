@@ -1,15 +1,20 @@
 #!/bin/bash
 
-if ! [ which checknullargumentandadderror > /dev/null ]; then
-
-fi
 
 wpdbchapi(){
-	declare -a errors
 
-	if [ -z $1 ]; then
-		errors+=('You must provides the first argument as the path to the wp-config.php file')
+	if ! [ which checknullargumentandadderror > /dev/null ]; then
+		echo It is needed checknullargumentandadderror utility to this script works.
+		echo wpdbchapi: aborting operation
+		return
 	fi
 
-	if [ -z ]
+	declare -a errors
+
+	checknullargumentandadderror $1 errors "You need to provides the first argument to be the wp-config.php path file"
+	checknullargumentandadderror $2 errors "You need to provides the constant value from the wp-config.php to be replaced"
+	checknullargumentandadderror $3 "You need to provides the old value for substituition"
+	checknullargumentandadderror $4 "You need to provides the new value for substituition"
+
+	errors_count=${#errors[@]}
 }
