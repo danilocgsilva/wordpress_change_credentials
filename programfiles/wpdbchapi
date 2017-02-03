@@ -1,20 +1,28 @@
 #!/bin/bash
 
-
 wpdbchapi(){
 
-	if ! [ which checknullargumentandadderror > /dev/null ]; then
+	# Check for dependecies
+	if ! [ `which checknullargumentandadderror` > /dev/null ]; then
 		echo It is needed checknullargumentandadderror utility to this script works.
 		echo wpdbchapi: aborting operation
 		return
 	fi
 
+	# Validade
 	declare -a errors
 
 	checknullargumentandadderror $1 errors "You need to provides the first argument to be the wp-config.php path file"
 	checknullargumentandadderror $2 errors "You need to provides the constant value from the wp-config.php to be replaced"
-	checknullargumentandadderror $3 "You need to provides the old value for substituition"
-	checknullargumentandadderror $4 "You need to provides the new value for substituition"
+	checknullargumentandadderror $3 errors "You need to provides the old value for substituition"
+	checknullargumentandadderror $4 errors "You need to provides the new value for substituition"
 
 	errors_count=${#errors[@]}
+	echo $errors_count
+	if [ $errors_count -gt 0 ]; then
+		for i in `seq 0 $errors_count`; do
+			echo wpdbchapi error: ${errors[$i]}
+		done
+		echo "wpdbchapi: operation aborted..."
+	fi
 }
