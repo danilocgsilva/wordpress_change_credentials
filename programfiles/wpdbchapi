@@ -1,28 +1,40 @@
 #!/bin/bash
 
-wpdbchapi(){
-
-	# Check for dependecies
-	if ! [ `which checknullargumentandadderror` > /dev/null ]; then
-		echo It is needed checknullargumentandadderror utility to this script works.
-		echo wpdbchapi: aborting operation
-		return
-	fi
+wpdbchapi() {
 
 	# Validade
 	declare -a errors
 
-	checknullargumentandadderror $1 errors "You need to provides the first argument to be the wp-config.php path file"
-	checknullargumentandadderror $2 errors "You need to provides the constant value from the wp-config.php to be replaced"
-	checknullargumentandadderror $3 errors "You need to provides the old value for substituition"
-	checknullargumentandadderror $4 errors "You need to provides the new value for substituition"
+	if [ -z $1 ]; then
+		errors+=('You need to provides the first argument to be the wp-config.php path file')
+	elfi ! [ -w $1 ]; then
+		errors+=('The file provided - that should be the wp-config.php - does not allow the current user to write in. Change file permission or change the executing user.')
+	fi
 
+	if [ -z $2 ]; then
+		errors+=('You need to provides the second argument to be the constant value from the wp-config.php to be replaceddoes not allow the current user to write in. Change file permission or change the executing user.')
+	fi
+
+	if [ -z $3 ]; then
+		errors+=('You need to provides the third argument to be the old value for substituitiondoes not allow the current user to write in. Change file permission or change the executing user.')
+	fi
+
+	if [ -z $4 ]; then
+		errors+=('You need to provides the fourth argument to be the new value for substituitiondoes not allow the current user to write in. Change file permission or change the executing user.')
+	fi
+
+	# Counts errors and abort if not meets the requirements
 	errors_count=${#errors[@]}
 	echo $errors_count
 	if [ $errors_count -gt 0 ]; then
-		for i in `seq 0 $errors_count`; do
+		for i in `seq 0 $(expr $errors_count - 1)`; do
 			echo wpdbchapi error: ${errors[$i]}
 		done
 		echo "wpdbchapi: operation aborted..."
+		return
 	fi
+
+	# It there's no errors, execute the code
 }
+
+
