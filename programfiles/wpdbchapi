@@ -6,13 +6,17 @@ wpdbchapi() {
 	declare -a errors
 
 	if [ -z $1 ]; then
-		errors+=('You need to provides the first argument to be the wp-config.php path file')
-	elfi ! [ -w $1 ]; then
-		errors+=('The file provided - that should be the wp-config.php - does not allow the current user to write in. Change file permission or change the executing user.')
+		errors+=('You need to provides the first argument to be the wp-config.php path file.')
+	elif ! [ -f $1 ]; then
+		errors+=('The file provided in the first argument does not exists.')
+	elif ! [ -w $1 ]; then
+		errors+=('The file provided in the first - which must be the wp-config.php - is not writable by the current user.')
 	fi
 
 	if [ -z $2 ]; then
 		errors+=('You need to provides the second argument to be the constant value from the wp-config.php to be replaceddoes not allow the current user to write in. Change file permission or change the executing user.')
+	elif ! [[ $2 =~ (DB_NAME|DB_USER|DB_PASSWORD|DB_HOST) ]]; then
+		errors+=('The constant provided in the second argument does not match a valid constant.')
 	fi
 
 	if [ -z $3 ]; then
@@ -25,7 +29,6 @@ wpdbchapi() {
 
 	# Counts errors and abort if not meets the requirements
 	errors_count=${#errors[@]}
-	echo $errors_count
 	if [ $errors_count -gt 0 ]; then
 		for i in `seq 0 $(expr $errors_count - 1)`; do
 			echo wpdbchapi error: ${errors[$i]}
@@ -35,6 +38,8 @@ wpdbchapi() {
 	fi
 
 	# It there's no errors, execute the code
+
+
 }
 
 
