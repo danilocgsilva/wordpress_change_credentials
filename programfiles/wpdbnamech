@@ -1,0 +1,12 @@
+#!/bin/bash
+
+wpdbnamech() {
+    if ! [ `which wpdbchapi` ]; then
+        echo wpdbnamech error: You need first have in the system the wpdbchapi utility to proced. Operation caceled.
+        return
+    fi
+
+    wpdbchapi $1 'DB_USER' $2 $3
+}
+
+wpdbnamech $1 $2 $3
