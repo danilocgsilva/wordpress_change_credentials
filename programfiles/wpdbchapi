@@ -5,7 +5,8 @@ wpdbchapi() {
 	# Validade
 	declare -a errors
 
-	if [ -z $1 ]; then
+	# Check file provided
+	if [ ${#1} -eq 0 ]; then
 		errors+=('You need to provides the first argument to be the wp-config.php path file.')
 	elif ! [ -f $1 ]; then
 		errors+=('The file provided in the first argument does not exists.')
@@ -13,6 +14,7 @@ wpdbchapi() {
 		errors+=('The file provided in the first - which must be the wp-config.php - is not writable by the current user.')
 	fi
 
+	# Check the argument to be used by search regex
 	if [ -z $2 ]; then
 		errors+=('You need to provides the second argument to be the constant value from the wp-config.php to be replaceddoes not allow the current user to write in. Change file permission or change the executing user.')
 	elif ! [[ $2 =~ (DB_NAME|DB_USER|DB_PASSWORD|DB_HOST) ]]; then
@@ -38,8 +40,7 @@ wpdbchapi() {
 	fi
 
 	# It there's no errors, execute the code
-
-
+	sed -i '' /define.*.$2/s/$3/$4/ $1
 }
 
-
+wpdbchapi $1 $2 $3 $4

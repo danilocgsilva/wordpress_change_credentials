@@ -1,5 +1,3 @@
 #!/bin/bash
 
-source wpdbchapi
-
-wpdbchapi wp-config.php DB_NAME asdf afsd
+wpdbnamech wp-config.php asdf afsd
