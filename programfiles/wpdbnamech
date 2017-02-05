@@ -33,7 +33,7 @@ wpdbnamech() {
         return
     fi
 
-    wpdbchapi $1 'DB_USER' $2 $3
+    wpdbchapi $1 'DB_NAME' $2 $3
 }
 
 wpdbnamech $1 $2 $3

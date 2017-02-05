@@ -1,0 +1,39 @@
+#!/bin/bash
+
+wpdbuserch() {
+    declare -a errors
+
+    if ! [ `which wpdbchapi` ]; then
+        echo 'wpdbuserch error: You need first have in the system the wpdbchapi utility to proced. Operation caceled.'
+        return
+    fi
+
+    if [ ${#1} -eq 0 ]; then
+        errors+=('wpdbuserch error: You need the first argument to be the path to wp-config.php file.')
+    elif ! [ -f $1 ]; then
+        errors+=('wpdbuserch error: The first argument provided - which must be the path to the wp-config.php - was not found.') 
+    elif ! [ -w $1 ]; then
+        errors+=('wpdbuserch error: The file provided in the first argument is not writable by the current user.')
+    fi
+
+    if [ -z $2 ]; then
+        errors+=('wpdbuserch error: the second argument was not provided: must be the old term to be replaced.')
+    fi
+
+    if [ -z $3 ]; then
+        errors+=('wpdbuserch error: the third argument was not provided: must be the new term to replace.')
+    fi
+
+    errors_count=${#errors[@]}
+    if [ $errors_count -gt 0 ]; then
+        for i in $(seq 0 $(expr $errors_count - 1)); do
+            echo ${errors[$i]}
+        done
+        echo wpdbuserch: operation aborted
+        return
+    fi
+
+    wpdbchapi $1 'DB_USER' $2 $3
+}
+
+wpdbuserch $1 $2 $3
