@@ -16,7 +16,7 @@ wpdbchapi() {
 
 	# Check the argument to be used by search regex
 	if [ -z $2 ]; then
-		errors+=('You need to provides the second argument to be the constant value from the wp-config.php to be replaceddoes not allow the current user to write in. Change file permission or change the executing user.')
+		errors+=('You need to provides the second argument to be the constant value from the wp-config.php to be replaced.')
 	elif ! [[ $2 =~ (DB_NAME|DB_USER|DB_PASSWORD|DB_HOST) ]]; then
 		errors+=('The constant provided in the second argument does not match a valid constant.')
 	fi
@@ -40,7 +40,7 @@ wpdbchapi() {
 	fi
 
 	# It there's no errors, execute the code
-	sed -i '' /define.*.$2/s/$3/$4/ $1
+	sed -i.bak /define.*.$2/s/$3/$4/ $1
 }
 
 wpdbchapi $1 $2 $3 $4
